@@ -7,7 +7,7 @@ from enum import Enum
 Base = declarative_base()
 
 class PhoneType(Enum):
-    home = "home"
+    personal = "personal"
     work = "work"
     mobile = "mobile"
 
