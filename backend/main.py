@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from api import contact  # Import your contact router
+from api import phone_numbers  # Import your phone numbers router
 
 app = FastAPI()
 
@@ -19,8 +20,9 @@ app.add_middleware(
     allow_headers=["*"],  # Allow all headers
 )
 
-# Include the contact API router
+# Include the API routers
 app.include_router(contact.router, prefix="/api", tags=["contacts"])
+app.include_router(phone_numbers.router, prefix="/api", tags=["phone_numbers"])
 
 # Optional: health check route
 @app.get("/")

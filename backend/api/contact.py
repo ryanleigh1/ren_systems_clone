@@ -3,7 +3,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from crud.contact import get_contacts_with_details
 from crud.contact import update_contact  # Import the update function from CRUD
 from schemas.schemas import ContactRead, ContactUpdate  # Import Pydantic schemas
-from db import get_db  # Import your DB session dependency
+from db import get_db
 
 router = APIRouter()
 

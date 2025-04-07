@@ -3,13 +3,7 @@ from enum import Enum
 from pydantic import BaseModel
 from typing import Optional, List
 
-class PhoneType(str, Enum):
-    """
-    Enum for phone types.
-    """
-    personal = "personal"
-    work = "work"
-    mobile = "mobile"
+from schemas.phone_number_schema import PhoneType
 
 class EmailType(str, Enum):
     """
@@ -17,6 +11,11 @@ class EmailType(str, Enum):
     """
     personal = "personal"
     work = "work"
+
+class EmailUpdate(BaseModel):
+    id: Optional[int]  # Optional for new emails
+    email_address: str
+    type: EmailType
     
 class WebInfoType(str, Enum):
     """
@@ -25,7 +24,12 @@ class WebInfoType(str, Enum):
     personal = "personal"
     work = "work"
     linkedin = "linkedin"
-    
+
+
+class WebInfoUpdate(BaseModel):
+    id: Optional[int]  # Optional for new web info
+    url: str
+    type: WebInfoType
     
 class ContactPhoneNumber(BaseModel):
     id: int
@@ -72,4 +76,17 @@ class ContactRead(ContactBase):
     
     class Config:
         orm_mode = True
+        
+class ContactCreate(ContactBase):
+    class Config:
+        orm_mode = True  # Allows ORM objects to be serialized into Pydantic models
   
+class ContactUpdate(ContactBase):
+    class Config:
+        orm_mode = True  # Allows ORM objects to be serialized into Pydantic models
+        
+class ContactDelete(ContactBase):
+    id: int  # Ensure we have the ID of the contact to delete
+
+    class Config:
+        orm_mode = True  # Allows ORM objects to be serialized into Pydantic models
