@@ -1,3 +1,4 @@
+from sqlalchemy import delete
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 from sqlalchemy.sql import Update
@@ -46,3 +47,19 @@ async def update_phone_number(id: int, request_body: PhoneNumberUpdate, db: Asyn
     if result.rowcount == 0:
         return None
     return await db.get(ContactPhoneNumbers, id)
+
+from sqlalchemy import delete
+
+async def remove_phone_number(id: int, db: AsyncSession):
+    """
+    Hard delete a phone number.
+    """
+    stmt = delete(ContactPhoneNumbers).where(ContactPhoneNumbers.id == id)
+
+    result = await db.execute(stmt)
+    await db.commit()
+
+    if result.rowcount == 0:
+        return None
+
+    return {"message": f"Phone number with ID {id} deleted."}

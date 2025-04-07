@@ -32,3 +32,9 @@ class PhoneNumberUpdate(BaseModel):
 
     class Config:
         orm_mode = True  # Allows ORM objects to be serialized into Pydantic models
+
+class PhoneNumberDelete(BaseModel):
+    id: int
+
+    class Config:
+        orm_mode = True  # Allows ORM objects to be serialized into Pydantic models
