@@ -1,4 +1,5 @@
 from enum import Enum
+from typing import Optional
 
 from pydantic import BaseModel
 
@@ -20,12 +21,12 @@ class PhoneNumberRead(BaseModel):
         orm_mode = True  # Allows ORM objects to be serialized into Pydantic models
 
 class PhoneNumberCreate(BaseModel):
-    id: int
+    id: Optional[int] = None
+    contact_id: int
     phone_number: str
     type: PhoneType
 
 class PhoneNumberUpdate(BaseModel):
-    id: int
     phone_number: str
     type: PhoneType
 

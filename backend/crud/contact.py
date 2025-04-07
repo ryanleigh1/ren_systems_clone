@@ -32,7 +32,8 @@ async def get_contact_with_details(db: AsyncSession, contact_id: int):
     
     result = await db.execute(stmt)  # Async execution
     return result.scalars().first()  # Extract first result
-  
+
+# TODO: fix this function
 async def create_contact(contact: Contact, db: AsyncSession):
   db.add(contact)  # Add the new contact to the session
   try:

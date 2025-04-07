@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
-from crud.phone_numbers import get_phone_numbers, update_phone_number
-from schemas.phone_number_schema import PhoneNumberRead, PhoneNumberUpdate
+from crud.phone_numbers import create_phone_number, get_phone_numbers, update_phone_number
+from schemas.phone_number_schema import PhoneNumberCreate, PhoneNumberRead, PhoneNumberUpdate
 from db import get_db
 
 router = APIRouter()
@@ -16,7 +16,17 @@ async def fetch_phone_numbers(contact_id: int, db: AsyncSession = Depends(get_db
         raise e
       raise HTTPException(status_code=500, detail=str(e)) from e
 
-@router.patch("/contact_phone_numbers/{phone_number_id}", response_model=PhoneNumberUpdate)
+@router.post("/contact_phone_numbers", response_model=PhoneNumberRead)
+async def post_phone_number(request_body: PhoneNumberCreate, db: AsyncSession = Depends(get_db)):
+    try:
+        new_phone_number = await create_phone_number(request_body=request_body, db=db)
+        return new_phone_number
+    except Exception as e:
+      if isinstance(e, HTTPException):
+        raise e
+      raise HTTPException(status_code=500, detail=str(e)) from e
+
+@router.patch("/contact_phone_numbers/{phone_number_id}", response_model=PhoneNumberRead)
 async def patch_phone_number(phone_number_id: int, request_body: PhoneNumberUpdate, db: AsyncSession = Depends(get_db)):
     try:
       updated_phone_number = await update_phone_number(id=phone_number_id, request_body=request_body, db=db)

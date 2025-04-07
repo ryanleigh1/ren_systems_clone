@@ -2,7 +2,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 from sqlalchemy.sql import Update
 
-from schemas.phone_number_schema import PhoneNumberUpdate
+from schemas.phone_number_schema import PhoneNumberCreate, PhoneNumberUpdate
 from models import ContactPhoneNumbers
 
 
@@ -18,6 +18,17 @@ async def get_phone_numbers(contact_id: int, db: AsyncSession):
     
     result = await db.execute(stmt)  # Async execution
     return result.scalars().all()
+
+async def create_phone_number(request_body: PhoneNumberCreate, db: AsyncSession):
+    """
+    Create a new phone number.
+    """
+    new_phone = ContactPhoneNumbers(**request_body.model_dump())
+    db.add(new_phone)
+    await db.commit()
+    await db.refresh(new_phone)
+
+    return new_phone
 
 async def update_phone_number(id: int, request_body: PhoneNumberUpdate, db: AsyncSession):
     """
