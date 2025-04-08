@@ -3,7 +3,7 @@ from sqlalchemy.future import select
 from sqlalchemy.sql import Update
 from sqlalchemy.orm import joinedload, selectinload
 from sqlalchemy.ext.asyncio import AsyncSession
-from schemas.schemas import ContactCreate, ContactUpdate
+from backend.schemas.contact_schema import ContactCreate, ContactUpdate
 from models import Contact
 
 
