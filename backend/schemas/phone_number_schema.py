@@ -26,6 +26,9 @@ class PhoneNumberCreate(BaseModel):
     phone_number: str
     type: PhoneType
 
+    class Config:
+        orm_mode = True
+
 class PhoneNumberUpdate(BaseModel):
     phone_number: str
     type: PhoneType

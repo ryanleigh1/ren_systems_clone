@@ -3,19 +3,8 @@ from enum import Enum
 from pydantic import BaseModel
 from typing import Optional, List
 
+from backend.schemas.email_schema import EmailType
 from schemas.phone_number_schema import PhoneType
-
-class EmailType(str, Enum):
-    """
-    Enum for email types.
-    """
-    personal = "personal"
-    work = "work"
-
-class EmailUpdate(BaseModel):
-    id: Optional[int]  # Optional for new emails
-    email_address: str
-    type: EmailType
     
 class WebInfoType(str, Enum):
     """

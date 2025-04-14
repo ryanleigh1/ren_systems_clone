@@ -4,16 +4,10 @@ from sqlalchemy.orm import relationship
 
 from enum import Enum
 
+from backend.schemas.email_schema import EmailType
+from backend.schemas.phone_number_schema import PhoneType
+
 Base = declarative_base()
-
-class PhoneType(Enum):
-    personal = "personal"
-    work = "work"
-    mobile = "mobile"
-
-class EmailType(Enum):
-    personal = "personal"
-    work = "work"
     
 class WebInfoType(Enum):
     personal = "personal"
@@ -57,7 +51,7 @@ class ContactPhoneNumbers(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     contact_id = Column(Integer, ForeignKey('contacts.id'), nullable=False)
     phone_number = Column(String, nullable=False)
-    type = Column(SQLEnum(PhoneType, name="phone_type"), nullable=False, default=PhoneType.mobile)  # Enum for phone type
+    type = Column(SQLEnum(PhoneType, name="phone_type"), nullable=False, default=PhoneType.mobile)
     
     contact = relationship("Contact", back_populates="phone_numbers")
     
