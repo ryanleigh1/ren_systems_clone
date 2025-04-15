@@ -1,8 +1,8 @@
 from sqlalchemy import Update, delete, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from backend.models import ContactEmails
-from backend.schemas.email_schema import EmailCreate, EmailUpdate
+from models import ContactEmails
+from schemas.email_schema import EmailCreate, EmailUpdate
 
 async def get_email_addresses(contact_id: int, db: AsyncSession):
   stmt = (

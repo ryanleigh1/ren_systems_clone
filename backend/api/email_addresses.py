@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from backend.crud.email_addresses import create_email_address, get_email_addresses, remove_email_address, update_email_address
-from backend.schemas.email_schema import EmailCreate, EmailRead, EmailUpdate
+from crud.email_addresses import create_email_address, get_email_addresses, remove_email_address, update_email_address
+from schemas.email_schema import EmailCreate, EmailRead, EmailUpdate
 from db import get_db
 
 router = APIRouter()

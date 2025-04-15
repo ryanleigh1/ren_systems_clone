@@ -4,8 +4,8 @@ from sqlalchemy.orm import relationship
 
 from enum import Enum
 
-from backend.schemas.email_schema import EmailType
-from backend.schemas.phone_number_schema import PhoneType
+from schemas.email_schema import EmailType
+from schemas.phone_number_schema import PhoneType
 
 Base = declarative_base()
     
@@ -16,7 +16,7 @@ class WebInfoType(Enum):
 
 
 class Contact(Base):
-    __tablename__ = 'contacts'  # Name of the table in the database
+    __tablename__ = 'contacts'
 
     id = Column(Integer, primary_key=True, autoincrement=True)  # Primary key
     first_name = Column(String, nullable=False)
@@ -30,7 +30,7 @@ class Contact(Base):
     web_info = relationship("ContactWebInfo", back_populates="contact", cascade="all, delete-orphan")
     
     def __repr__(self):
-        return f"<Contact(name={self.first_name}, email={self.email})>"
+        return f"<Contact(first_name={self.first_name}, last_name={self.last_name})>"
       
 class ContactEmails(Base):
     __tablename__ = 'contact_email_addresses'
@@ -43,7 +43,7 @@ class ContactEmails(Base):
     contact = relationship("Contact", back_populates="email_addresses")
     
     def __repr__(self):
-        return f"<CustomerEmails(email={self.email})>"
+        return f"<CustomerEmails(email_address={self.email_address})>"
       
 class ContactPhoneNumbers(Base):
     __tablename__ = 'contact_phone_numbers'

@@ -3,7 +3,7 @@ from sqlalchemy.future import select
 from sqlalchemy.sql import Update
 from sqlalchemy.orm import joinedload, selectinload
 from sqlalchemy.ext.asyncio import AsyncSession
-from backend.schemas.contact_schema import ContactCreate, ContactUpdate
+from schemas.contact_schema import ContactCreate, ContactUpdate
 from models import Contact
 
 
@@ -17,8 +17,8 @@ async def get_contacts_with_details(db: AsyncSession):
         )
     )
     
-    result = await db.execute(stmt)  # Async execution
-    return result.scalars().all()  # Extract first result
+    result = await db.execute(stmt)
+    return result.scalars().all()
 
 async def get_contact_with_details(db: AsyncSession, contact_id: int):
     stmt = (

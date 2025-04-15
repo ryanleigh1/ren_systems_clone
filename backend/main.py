@@ -8,7 +8,8 @@ app = FastAPI()
 
 # Allow frontend (React dev server) to communicate with the backend
 origins = [
-    "http://localhost:3000",  # React default dev server
+    "http://localhost:5173",  # React default dev server
+    "http://127.0.0.1:5173",
     # "https://your-production-domain.com",  # Add production domain here later
 ]
 
