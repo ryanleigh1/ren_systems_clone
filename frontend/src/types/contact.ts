@@ -5,4 +5,7 @@ export type Contact = {
   middleName?: string;
   dateOfBirth: Date;
   isVip?: boolean;
+  emailAddresses?: { id: number; emailAddress: string; type: string }[]
+  phoneNumbers?: { id: number; number: string; type: string }[]
+  webInfo?: { id: number; url: string; type: string }[]
 }

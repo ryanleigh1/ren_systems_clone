@@ -1,19 +1,20 @@
-import { useEffect, useState } from "react";
-import { Contact } from "../types/contact";
-import { fetchContacts } from "../api/contacts";
+import { useEffect } from "react";
+import { useContactsStore } from "../store/contactsStore";
 
 const ContactsList = () => {
-  const [contacts, setContacts] = useState<Contact[]>([]);
+  const { contacts, loading, error, fetchContacts } = useContactsStore();
 
   useEffect(() => {
-    fetchContacts().then(setContacts);
-  }, []);
+    fetchContacts();
+  }, [fetchContacts]);
+
+  if (loading) return <p>Loading contacts...</p>;
+  if (error) return <p>Error: {error}</p>;
 
   return (
-    <div>
+    <div className="h-screen w-full flex justify-center align-middle bg-gray-100 p-4">
       <ul>
         {contacts.map((contact) => {
-          console.log('contact', contact)
           return (
             <li key={contact.id}>{contact.firstName}</li>
           )
