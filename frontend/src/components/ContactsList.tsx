@@ -1,13 +1,9 @@
-import { useEffect } from "react";
 import { useContactsStore } from "../store/contactsStore";
 import { Contact } from "../types/contact";
 
 const ContactsList = () => {
-  const { contacts, loading, error, fetchContacts, setSelectedContact, setSidePanelOpen } = useContactsStore();
+  const { loading, error, filteredContacts, setSelectedContact, setSidePanelOpen } = useContactsStore();
 
-  useEffect(() => {
-    fetchContacts();
-  }, [fetchContacts]);
 
   if (loading) return <p>Loading contacts...</p>;
   if (error) return <p>Error: {error}</p>;
@@ -18,9 +14,9 @@ const ContactsList = () => {
   };
 
   return (
-    <div className="h-screen w-full flex justify-center align-middle bg-gray-100 p-4">
+    <div className="h-screen w-full flex justify-center align-middle bg-gray-100 mt-20 p-4">
       <ul>
-        {contacts.map((contact) => {
+        {filteredContacts.map((contact) => {
           return (
             <li key={contact.id}>
               <button onClick={() => setSelectedContactAndOpenPanel(contact)}>{contact.firstName}</button>

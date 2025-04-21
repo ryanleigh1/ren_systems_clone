@@ -1,6 +1,6 @@
-import { create } from 'zustand';
-import { fetchContacts } from '../api/contacts';
-import { Contact } from '../types/contact';
+import { create } from "zustand";
+import { fetchContacts } from "../api/contacts";
+import { Contact } from "../types/contact";
 
 interface ContactState {
   // State
@@ -11,7 +11,8 @@ interface ContactState {
   isSidePanelOpen: boolean;
   searchQuery: string;
   selectedContact: Contact | null;
-  filteredContacts: () => Contact[];
+  
+  filteredContacts: Contact[];
 }
 
 interface Actions {
@@ -30,21 +31,16 @@ export const useContactsStore = create<ContactState & Actions>((set, get) => ({
   error: null,
   isSearching: false,
   isSidePanelOpen: false,
-  searchQuery: '',
+  searchQuery: "",
   selectedContact: null,
-  filteredContacts: () => {
-    const { contacts, searchQuery } = get()
-    if (!searchQuery.trim()) return contacts
-    return contacts.filter((contact) =>
-      `${contact.firstName} ${contact.lastName}`.toLowerCase().includes(searchQuery.toLowerCase())
-    )
-  },
+  filteredContacts: [],
+  
   // Actions
   fetchContacts: async () => {
     set({ loading: true });
     try {
       const contacts = await fetchContacts();
-      set({ contacts, loading: false });
+      set({ contacts, filteredContacts: contacts, loading: false });
     } catch (error: any) {
       set({ error: error.message, loading: false });
     }
@@ -52,6 +48,19 @@ export const useContactsStore = create<ContactState & Actions>((set, get) => ({
   setContacts: (contacts) => set({ contacts }),
   setIsSearching: (isSearching) => set({ isSearching }),
   setSelectedContact: (contact) => set({ selectedContact: contact }),
-  setSearchQuery: (query) => set({ searchQuery: query }),
-  setSidePanelOpen: (isOpen) => set({ isSidePanelOpen: isOpen}),
-}))
+  setSidePanelOpen: (isOpen) => set({ isSidePanelOpen: isOpen }),
+  setSearchQuery: (query: string) => {
+    set({ searchQuery: query });
+    const { contacts } = get();
+    if (!query.trim()) {
+      set({ filteredContacts: contacts });
+    } else {
+      const filtered = contacts.filter(
+        (contact) =>
+          contact.firstName.toLowerCase().includes(query.toLowerCase()) ||
+          contact.lastName.toLowerCase().includes(query.toLowerCase())
+      );
+      set({ filteredContacts: filtered });
+    }
+  },
+}));
