@@ -6,6 +6,6 @@ export type Contact = {
   dateOfBirth: Date;
   isVip?: boolean;
   emailAddresses?: { id: number; emailAddress: string; type: string }[]
-  phoneNumbers?: { id: number; number: string; type: string }[]
+  phoneNumbers?: { id: number; phone_number: string; type: string }[]
   webInfo?: { id: number; url: string; type: string }[]
 }
