@@ -2,28 +2,33 @@ import { create } from 'zustand';
 import { fetchContacts } from '../api/contacts';
 import { Contact } from '../types/contact';
 
-interface ContactStore {
+interface ContactState {
   // State
   contacts: Contact[];
   loading: boolean;
   error: string | null;
+  isSearching: boolean;
   isSidePanelOpen: boolean;
   searchQuery: string;
   selectedContact: Contact | null;
   filteredContacts: () => Contact[];
-  // Actions
-  fetchContacts: () => Promise<void>;
-  setContacts: (contacts: Contact[]) => void,
-  setSearchQuery: (query: string) => void,
-  setSelectedContact: (contact: Contact | null) => void,
-  setSidePanelOpen: (isOpen: boolean) => void,
 }
 
-export const useContactsStore = create<ContactStore>((set, get) => ({
+interface Actions {
+  fetchContacts: () => Promise<void>;
+  setContacts: (contacts: Contact[]) => void;
+  setIsSearching: (isSearching: boolean) => void;
+  setSearchQuery: (query: string) => void;
+  setSelectedContact: (contact: Contact | null) => void;
+  setSidePanelOpen: (isOpen: boolean) => void;
+}
+
+export const useContactsStore = create<ContactState & Actions>((set, get) => ({
   // default state
   contacts: [],
   loading: false,
   error: null,
+  isSearching: false,
   isSidePanelOpen: false,
   searchQuery: '',
   selectedContact: null,
@@ -45,6 +50,7 @@ export const useContactsStore = create<ContactStore>((set, get) => ({
     }
   },
   setContacts: (contacts) => set({ contacts }),
+  setIsSearching: (isSearching) => set({ isSearching }),
   setSelectedContact: (contact) => set({ selectedContact: contact }),
   setSearchQuery: (query) => set({ searchQuery: query }),
   setSidePanelOpen: (isOpen) => set({ isSidePanelOpen: isOpen}),
